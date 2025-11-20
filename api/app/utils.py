@@ -8,13 +8,13 @@ def mock_ai_validation(sentence: str, target_word: str, difficulty: str) -> dict
     """
     sentence_lower = sentence.lower()
     target_word_lower = target_word.lower()
-    
+
     # Check if word is in sentence
     has_word = target_word_lower in sentence_lower
-    
+
     # Calculate simple score
     word_count = len(sentence.split())
-    
+
     if not has_word:
         return {
             "score": 0.0,
@@ -22,7 +22,7 @@ def mock_ai_validation(sentence: str, target_word: str, difficulty: str) -> dict
             "suggestion": f"Your sentence must include the word '{target_word}'. Please try again!",
             "corrected_sentence": f"Remember to use '{target_word}' in your sentence."
         }
-    
+
     # Score based on length and complexity
     if word_count < 5:
         score = random.uniform(4.0, 6.0)
@@ -33,14 +33,18 @@ def mock_ai_validation(sentence: str, target_word: str, difficulty: str) -> dict
     else:
         score = random.uniform(8.0, 10.0)
         suggestion = "Excellent! Your sentence is well-structured and descriptive."
-    
+
     # Adjust score based on difficulty
     if difficulty == 'Advanced' and word_count > 8:
         score = min(10.0, score + 0.5)
-    
+
     return {
         "score": round(score, 1),
         "level": difficulty,
         "suggestion": suggestion,
         "corrected_sentence": sentence  # In production, AI would correct this
     }
+
+
+def check_sentence(user_sentence: str, correct_word: str) -> float:
+    return 100.0 if correct_word in user_sentence else 0.0
